@@ -1,8 +1,10 @@
 import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
+from django.core.validators import RegexValidator
 from django.db import connections
 from pymongo import MongoClient
+from django.utils.translation import gettext_lazy as _
 
 
 def app():
@@ -57,3 +59,12 @@ def memcached():
         sentry_sdk.capture_exception(e)
         print(">>>", f"memcached Server not available because {e}")
     return 0
+
+
+mobile_number_validator = RegexValidator(
+    regex=r'^(\+98|0)?9\d{9}$',
+    message=_(
+        "Phone number must be entered in the format: '+989999999' or '099999999'."
+        " Up to 13 digits allowed."
+    )
+)
