@@ -34,7 +34,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(
 SITE_URL = os.environ.get('SITE_URL', '127.0.0.1')
 VERSION = os.getenv('VERSION', default='1.0.0')
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     'django_redis',
     'rest_framework',
     'pymemcache',
+
+    'apps.authentication',
+    'apps.social',
+    'apps.common',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +132,6 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v0',
     'ALLOWED_VERSIONS': os.environ.get('REST_FRAMEWORK_ALLOWED_VERSIONS', default='v0,v1').split(','),
-    'DEFAULT_PAGINATION_CLASS': 'applications.common.paginator.ResponsePaginator',
     'PAGE_SIZE': os.getenv('PAGE_SIZE', 100),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.SearchFilter',
