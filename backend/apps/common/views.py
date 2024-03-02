@@ -12,7 +12,15 @@ from apps.common.serializers import HealthSerializer
 from .utils import archive_database, database, app, redis, memcached
 
 
-class HealthViewSet(viewsets.GenericViewSet):
+class BaseViewSet(viewsets.GenericViewSet):
+    """
+    This class provides with an interface to all other view sets in this project.
+    If any overrides needed in all the view sets this is where the logic should take place.
+    """
+    pass
+
+
+class HealthViewSet(BaseViewSet):
     permission_classes = [AllowAny]
     serializer_class = HealthSerializer
 

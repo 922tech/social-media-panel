@@ -35,6 +35,8 @@ SITE_URL = os.environ.get('SITE_URL', '127.0.0.1')
 VERSION = os.getenv('VERSION', default='1.0.0')
 
 AUTH_USER_MODEL = 'authentication.User'
+SITE_HEADER = 'Social Media Panel'
+SITE_TITLE = 'Social Media Panel'
 
 # Application definition
 INSTALLED_APPS = [
