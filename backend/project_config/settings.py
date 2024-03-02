@@ -34,8 +34,9 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(
 SITE_URL = os.environ.get('SITE_URL', '127.0.0.1')
 VERSION = os.getenv('VERSION', default='1.0.0')
 
-# Application definition
+AUTH_USER_MODEL = 'user.User'
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -108,7 +109,7 @@ DATABASES = {
             'loggers': {
                 'djongo': {
                     'level': 'DEBUG',
-                    'propogate': False,
+                    'propagate': False,
                 }
             },
         },
@@ -123,7 +124,7 @@ DATABASES = {
     }
 }
 
-EST_FRAMEWORK = {
+REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
     'DEFAULT_VERSION': 'v0',
     'ALLOWED_VERSIONS': os.environ.get('REST_FRAMEWORK_ALLOWED_VERSIONS', default='v0,v1').split(','),
