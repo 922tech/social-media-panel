@@ -43,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework_simplejwt',
+    'django_filters',
+    'django_redis',
+    'rest_framework',
+    'pymemcache',
 ]
 
 MIDDLEWARE = [
@@ -208,3 +214,11 @@ CACHES = {
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REDIS_CLIENT = Redis(
+    host=os.getenv("REDIS_HOST", default='localhost'),
+    # password=os.getenv("REDIS_PASSWORD", default=''),
+    port=int(os.getenv("REDIS_PORT", default=6379)),
+    db=int(os.getenv("REDIS_DB", default=0)),
+)
