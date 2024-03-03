@@ -1,5 +1,5 @@
 import {ActionUnion, ThunkAction, createAction} from "../utils/redux";
-
+import serverProxy from "../core/server";
 
 export enum AuthActionTypes {
     LOGIN = "LOGIN",
@@ -14,6 +14,12 @@ const authActions = {
 export type AuthActions = ActionUnion<typeof authActions>;
 
 
-const login = (credential: string, password: string) : ThunkAction => async (dispatch, getState) => {
+export const loginAsync = (credential: string, password: string) : ThunkAction => async (dispatch, getState) => {
+    await serverProxy.server.login(credential, password)
     dispatch(authActions.login())
+}
+
+export const loginSuccessAsync = () : ThunkAction => async (dispatch) => {
+    const user = await serverProxy.server.getProfile()
+    dispatch(authActions.loginSuccess(user))
 }

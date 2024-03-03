@@ -1,26 +1,52 @@
 import React from 'react';
+import { Action } from 'redux';
+import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { loginSuccessAsync, loginAsync } from '../../actions/auth-actions'
 import Layout from '../../containers/layout';
-import { Box, Button, Card, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 import './style.css';
 
-class LoginComponent extends React.PureComponent {
-    render(): JSX.Element {
-        return (
+interface Props {
+    loginAsync(username:string, password:string): void;
+    loginSuccessAsync() : void;
+}
+
+function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, Action>): Props {
+    return {
+        loginAsync: (username:string, password:string) => dispatch(loginAsync(username, password)),
+        loginSuccessAsync() { dispatch(loginSuccessAsync())}
+    }
+}
+const LoginComponent= (props: Props) : JSX.Element => {
+    console.log(props);
+    
+    async function handleSubmit (event:  React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const authData = {
+            username: data.get('username') as FormDataEntryValue,
+            password: data.get('password') as FormDataEntryValue,
+          }
+          console.log(authData);
+        await props.loginAsync(authData.username as string, authData.password as string)        
+    }
+
+    return (
         <Layout className='login-page-container'>
-            <Box className='login-form-container' border={'20px'}>
-                <Typography className='login-page-title'>
+            <Box className='login-form-container' display='flex'>
+                <Typography className='login-page-ttile'>
                     Login Page
-                </Typography>
-                
-                <Box component="form"  noValidate sx={{ mt: 1 }}>
+                </Typography> 
+                <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
                     <TextField
                     margin="normal"
                     required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id="username"
+                    label="username Address"
+                    name="username"
+                    autoComplete="username"
                     autoFocus
                     />
                     <TextField
@@ -37,15 +63,12 @@ class LoginComponent extends React.PureComponent {
                     control={<Checkbox value="remember" color="primary" />}
                     label="Remember me"
                     />
-            </Box>
-
-                <Button variant="contained">
-                    Login
-                </Button>
+                    <Button variant="contained" type="submit">
+                        Login
+                    </Button>
+                </Box>
             </Box>
         </Layout>
         );
-    }
 }
-
-export default  LoginComponent;
+export default connect(null, mapDispatchToProps)(LoginComponent)

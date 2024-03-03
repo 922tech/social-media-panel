@@ -8,9 +8,10 @@ import Home from './home/home-page';
 function App() {
   return (
     <>
+
     <ThemeProvider  theme={defaultTheme}>
       <Routes>
-        <Route path='/auth/login' element={<Login/>} />
+        <Route path='/auth/login' element={<Login />} />
         <Route path='/' element={<Home/>} />
       </Routes>  
       </ThemeProvider >
