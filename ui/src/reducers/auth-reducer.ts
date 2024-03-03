@@ -1,17 +1,22 @@
-import { AuthActionTypes } from "../actions/auth-actions";
+import { AuthState } from ".";
+import { AuthActionTypes, AuthActions } from "../actions/auth-actions";
 import {ActionWithPayload} from "../utils/redux";
 
-export interface AuthState {
-  isAuthenticated: boolean;
-}
 
-export default function authReducer(state: AuthState, action: ActionWithPayload) {
+
+
+const initailAuthState : AuthState = {
+    user: {
+        isAuthenticated: false,
+        
+    },
+}
+export default function authReducer(state: AuthState, action: AuthActions) : AuthState {
     switch (action.type){
         case AuthActionTypes.LOGIN:
-            return {...state, user:{isAuthenticated: action.payload.isAuthenticated}}
-
+            return {...state, user: { isAuthenticated: false}}
         default:
-            return state;
+            return initailAuthState;
     }
 }
 

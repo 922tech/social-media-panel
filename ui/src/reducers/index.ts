@@ -1,10 +1,18 @@
 import { combineReducers, Reducer } from 'redux';
-import authReducer, {AuthState} from "./auth-reducer";
+import authReducer from "./auth-reducer";
 
 export interface CombinedState {
-    auth: AuthState;
+    auth?: AuthState;
 }
-export default function createRootReducer(): Reducer {
+
+export interface AuthState {
+    user: {
+        isAuthenticated: boolean,
+        
+    },
+}
+
+export default function createRootReducer(): any {
     return combineReducers({
         auth: authReducer,
     })

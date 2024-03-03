@@ -1,15 +1,19 @@
-import {ThunkAction} from "../utils/redux";
+import {ActionUnion, ThunkAction, createAction} from "../utils/redux";
 
 
 export enum AuthActionTypes {
-    IS_AUTHENTICATED = "IS_AUTHENTICATED",
     LOGIN = "LOGIN",
-    LOGIN_SUCCESS = "LOG_SUCCESS"
+    LOGIN_SUCCESS = "LOGIN_SUCCESS"
 }
 
+const authActions = {
+    login: () => createAction(AuthActionTypes.LOGIN),
+    loginSuccess: (user: any) => createAction(AuthActionTypes.LOGIN_SUCCESS, { user })
+}
+
+export type AuthActions = ActionUnion<typeof authActions>;
+
+
 const login = (credential: string, password: string) : ThunkAction => async (dispatch) => {
-    dispatch({
-        type: AuthActionTypes.LOGIN,
-        payload: {isAuthenticated: true}
-    })
+    dispatch(authActions.login())
 }
