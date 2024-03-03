@@ -14,6 +14,6 @@ const authActions = {
 export type AuthActions = ActionUnion<typeof authActions>;
 
 
-const login = (credential: string, password: string) : ThunkAction => async (dispatch) => {
+const login = (credential: string, password: string) : ThunkAction => async (dispatch, getState) => {
     dispatch(authActions.login())
 }
