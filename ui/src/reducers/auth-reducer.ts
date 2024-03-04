@@ -1,9 +1,5 @@
 import { AuthState } from ".";
 import { AuthActionTypes, AuthActions } from "../actions/auth-actions";
-import {ActionWithPayload} from "../utils/redux";
-
-
-
 
 const initailAuthState : AuthState = {
     user: {

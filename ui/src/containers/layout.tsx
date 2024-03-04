@@ -1,16 +1,12 @@
 import { Container,ContainerProps  } from '@mui/material';
 import React from 'react';
 
-interface LayoutProps extends ContainerProps{
-    children: React.ReactNode,
+
+const Layout: any = (props: ContainerProps) => {
+
+    return( 
+        <Container {...props} >{props.children}</Container>
+    );
 }
-
-const Layout: React.FC<LayoutProps> = (props) => {
-
-      return( 
-        <Container component='main' {...props} /> 
-        );
-    }
-
 
 export default  Layout;

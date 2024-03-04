@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux';
+import { combineReducers } from 'redux';
 import authReducer from "./auth-reducer";
 
 export interface AuthState {

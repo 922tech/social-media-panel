@@ -2,17 +2,16 @@ import React from 'react';
 import { Action } from 'redux';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { loginSuccessAsync, loginAsync } from '../../actions/auth-actions'
-import Layout from '../../containers/layout';
+import { CombinedState } from '../../reducers';
 import './style.css';
-import { AuthState, CombinedState } from '../../reducers';
 
 interface Props {
     loginAsync(username:string, password:string): void;
     loginSuccessAsync() : void;
     loginSuccess: boolean;
-    login: boolean;
+    login: any;
 }
 
 interface DispatchToProps {
@@ -39,8 +38,7 @@ function mapStateToProps(state: CombinedState) : StateToProps {
     }
 } 
 
-
-const LoginForm = (props: Props) => {
+const LoginForm : React.FC<Props> = (props: Props) => {
 
     async function handleSubmit (event:  React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -91,14 +89,14 @@ const LoginComponent= (props: any) : JSX.Element => {
     console.log(props);
     
     return (
-        <Layout className='login-page-container' sx={{ display:'flex' }}>
+        <Box className='login-page-container' sx={{ display:'flex' }}>
             <Box className='login-form-container'>
                 <Typography  id='login-page-title'>
                     Login
                 </Typography> 
                 <LoginForm {...props}/>
             </Box>
-        </Layout>
+        </Box>
         );
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent)
