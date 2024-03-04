@@ -1,0 +1,9 @@
+server {
+    listen 888;
+    server_name ${SITE_URL};
+    location /monitor {
+        auth_basic           "Restricted Access!";
+        auth_basic_user_file /etc/nginx/conf.d/.htpasswd;
+        proxy_pass http://host.docker.internal:9100/metrics;
+    }
+}

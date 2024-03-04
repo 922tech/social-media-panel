@@ -5,6 +5,9 @@ This is a simple web application implemented using Django and React
 
 * Currently only the tasks concerning the project infrasructure infrastructe are done (except dockerizing).
 
+## Project:
+    - to run the project you can run `docker compose up -d`.
+
 ## UI:
     - to run the ui , cd to ui and run `yarn start` 
     - to run the ui with docker, `sh ./ui/init-ui.sh`. then you will have a docker image that can be run with command

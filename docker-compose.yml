@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+  memcached:
+    image: memcached:latest
+    container_name: ${PROJECT_NAME}-memcached
+    restart: unless-stopped
+    env_file:
+      - ./.env
+
+  redis:
+    image: redis:7.0.2-alpine
+    container_name: ${PROJECT_NAME}-redis
+    restart: unless-stopped
+    command: redis-server --save ${REDIS_DUMP_INTERVAL} 1000 --loglevel warning --requirepass ${REDIS_PASSWORD} --appendonly no
+    env_file:
+      - ./.env
+    volumes:
+      - redis:/data
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}-mongo
+    env_file:
+      - ./.env
+
+
+  postgres:
+    image: postgres:13.0-alpine
+    env_file:
+      - ./.env
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}-postgresql
+    ports:
+     - 5432:5432
+
+
+  web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py migrate &&
+      yes | python manage.py collectstatic --no-input &&
+      python -m django compilemessages -f &&
+      gunicorn ${PROJECT_NAME}.wsgi:application --workers=${GUNICORN_WORKERS} --timeout=${GUNICORN_TIMEOUT} --bind 0.0.0.0:${GUNICORN_PORT}"
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    container_name: ${PROJECT_NAME:-social_media_panel-web}-app
+    expose:
+      - ${GUNICORN_PORT}
+    ports:
+      - ${GUNICORN_PORT}:${GUNICORN_PORT}
+    env_file:
+      - ./.env
+
+      - postgres
+      - mongo
+      - redis
+    restart: unless-stopped
+
+
+  nginx:
+    image: nginx:1.23.0-alpine
+    ports:
+      - 80:80
+      - 443:443
+      - 888:888
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}-nginx
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+      - flower_data:/app/flower/static
+      - ./backend/nginx/conf/:/etc/nginx/conf.d/:rw
+      - ./nginx/templates/:/etc/nginx/templates/:ro
+      - ../certbot/www:/var/www/certbot/:ro
+      - ../certbot/conf/:/etc/nginx/ssl/:ro
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "${WEB_PROTOCOL}://${SITE_URL}/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ui:
+    image: social_media_panel
+    container_name: ${PROJECT_NAME:-social_media_panel-ui}-redis
+
+volumes:
+  static_volume:
+  media_volume:
+  flower_data:
+  redis:
+    driver: local
