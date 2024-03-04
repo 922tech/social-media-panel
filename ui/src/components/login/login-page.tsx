@@ -85,9 +85,7 @@ const LoginForm : React.FC<Props> = (props: Props) => {
 }
 
 
-const LoginComponent= (props: any) : JSX.Element => {    
-    console.log(props);
-    
+const LoginComponent= (props: any) : JSX.Element => {        
     return (
         <Box className='login-page-container' sx={{ display:'flex' }}>
             <Box className='login-form-container'>
