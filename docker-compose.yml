@@ -32,8 +32,7 @@ services:
       - ./.env
     restart: unless-stopped
     container_name: ${PROJECT_NAME}-postgresql
-    ports:
-     - 5432:5432
+
 
 
   web:
@@ -42,8 +41,7 @@ services:
       dockerfile: Dockerfile
     command: sh -c "python manage.py migrate &&
       yes | python manage.py collectstatic --no-input &&
-      python -m django compilemessages -f &&
-      gunicorn ${PROJECT_NAME}.wsgi:application --workers=${GUNICORN_WORKERS} --timeout=${GUNICORN_TIMEOUT} --bind 0.0.0.0:${GUNICORN_PORT}"
+      gunicorn project_config.wsgi:application --workers=${GUNICORN_WORKERS} --timeout=${GUNICORN_TIMEOUT} --bind 0.0.0.0:${GUNICORN_PORT}"
     volumes:
       - ./backend:/app
       - static_volume:/app/static
@@ -56,23 +54,25 @@ services:
     env_file:
       - ./.env
 
+    depends_on:
       - postgres
       - mongo
       - redis
     restart: unless-stopped
+    environment:
+      - POSTGRES_HOST=postgres
 
 
   nginx:
     image: nginx:1.23.0-alpine
     ports:
-      - 3000:80
+      - 8000:80
 
     restart: unless-stopped
     container_name: ${PROJECT_NAME}-nginx
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
-      - flower_data:/app/flower/static
       - ./backend/nginx/conf/:/etc/nginx/conf.d/:rw
       - ./nginx/templates/:/etc/nginx/templates/:ro
       - ../certbot/www:/var/www/certbot/:ro
@@ -93,10 +93,11 @@ services:
   ui:
     image: social_media_panel
     container_name: ${PROJECT_NAME:-social_media_panel-ui}-ui
+    ports:
+    - 3000:80
 
 volumes:
   static_volume:
   media_volume:
-  flower_data:
   redis:
     driver: local

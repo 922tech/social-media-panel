@@ -7,12 +7,11 @@ This is a simple web application implemented using Django and React
 
 
 ## UI:
-    - to run the ui , cd to ui and run `yarn start` 
-    - to run the ui with docker, `sh ./ui/init-ui.sh`. then you will have a docker image that can be run with command
-      `docker run -p 3000:80 social_media_panel`.
-
+    - to run the ui on development mode, cd to ui and run `yarn start` 
     - The login page is implemented at path "auth/login/"
     - State management is implemented using Redux along with redux-thunk actions
 
 ## Project:
-    - to run the project you can run `docker compose up -d` (after setting up UI with docker).
+    - cd to ui and run `docker build . -t social_media_admin`
+    - cd back to the root of the project and run `docker compose up -d`.
+    - Then you can see the UI at localhost:3000
