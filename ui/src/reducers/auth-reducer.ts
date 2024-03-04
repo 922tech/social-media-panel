@@ -8,13 +8,18 @@ import {ActionWithPayload} from "../utils/redux";
 const initailAuthState : AuthState = {
     user: {
         isAuthenticated: false,
-        
     },
+    login: null,
+    loginSuccess: false
 }
+
 export default function authReducer(state: AuthState, action: AuthActions) : AuthState {
     switch (action.type){
         case AuthActionTypes.LOGIN:
-            return {...state, user: { isAuthenticated: false}}
+            return { user: { isAuthenticated: false}, login: true, loginSuccess: false }
+
+        case AuthActionTypes.LOGIN_SUCCESS:
+            return { user: { isAuthenticated: true}, login: true, loginSuccess: true }
         default:
             return initailAuthState;
     }

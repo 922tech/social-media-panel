@@ -24,18 +24,24 @@ function removeAuthData(): void {
     refresh_token = null;
 }
 
-async function login(credential: string, password: string): Promise<void> {
+async function login(credential: string, password: string): Promise<boolean> {
     removeAuthData();
     let authenticationResponse = null;
     try {
         authenticationResponse = await Axios.post(`${config.backendAPI}/auth/login`, {
             username: credential,
             password,
-        });
+        },
+        {
+            validateStatus: (status) => status < 500
+        }
+        );
+        console.log(authenticationResponse);
     } catch (errorData) {
-        throw Error('Your credentials is not valid.');
+        return false
     }
     setAuthData(authenticationResponse);
+    return true
 }
 
 async function fresh_token() {

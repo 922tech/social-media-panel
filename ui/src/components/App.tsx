@@ -1,9 +1,9 @@
 import React from 'react';
 import {  Route, Routes  } from 'react-router';
 import Login from './login/login-page';
-import defaultTheme from './Themes';
+import defaultTheme from './themes';
 import { ThemeProvider } from '@mui/material/styles';
-import Home from './home/home-page';
+import Home from './home-page/home-page';
 
 function App() {
   return (
