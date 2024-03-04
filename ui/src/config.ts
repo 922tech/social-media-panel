@@ -1,6 +1,5 @@
 
 const config = {
-    backendAPI: 'http://127.0.0.1:8000/v0/api'
+    backendAPI: process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : 'http://localhost:8000'
 }
-
 export default config;
