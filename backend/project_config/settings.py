@@ -74,9 +74,14 @@ ROOT_URLCONF = 'project_config.urls'
 
 CORS_ORIGIN_ALLOW_ALL = False
 
-CORS_ORIGIN_WHITELIST = [
-    'http://0.0.0.0:3000', 'http://localhost:3000', 'http://localhost' # Replace with your frontend's URL
-]
+os.environ.get('REST_FRAMEWORK_ALLOWED_VERSIONS', default='v0,v1').split(',')
+
+CORS_ORIGIN_WHITELIST = os.environ.get(
+    'REST_FRAMEWORK_ALLOWED_VERSIONS', default='http://0.0.0.0:3000,http://localhost:3000,http://localhost'
+    ).split(',')
+# CORS_ORIGIN_WHITELIST = [
+#     'http://0.0.0.0:3000', 'http://localhost:3000', 'http://localhost' # Replace with your frontend's URL
+# ]
 
 TEMPLATES = [
     {
