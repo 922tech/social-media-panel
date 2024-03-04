@@ -24,7 +24,7 @@ class HealthViewSet(BaseViewSet):
     permission_classes = [AllowAny]
     serializer_class = HealthSerializer
 
-    @action(methods=['GET'], detail=False, url_path='text', url_name='text')
+    @action(methods=['GET', 'OPTIONS'], detail=False, url_path='text', url_name='text')
     def text(self, request, *args, **kwargs):
         app_text = f"medrick_app {app()}"
         database_text = f"medrick_db {database()}"

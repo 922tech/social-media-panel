@@ -75,7 +75,7 @@ ROOT_URLCONF = 'project_config.urls'
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = [
-    'http://0.0.0.0:3000',  # Replace with your frontend's URL
+    'http://0.0.0.0:3000', 'http://localhost:3000', 'http://localhost' # Replace with your frontend's URL
 ]
 
 TEMPLATES = [

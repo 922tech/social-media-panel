@@ -18,9 +18,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, Action>): Props {
         loginSuccessAsync() { dispatch(loginSuccessAsync())}
     }
 }
-const LoginComponent= (props: Props) : JSX.Element => {
-    console.log(props);
-    
+const LoginComponent= (props: Props) : JSX.Element => {    
     async function handleSubmit (event:  React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -33,9 +31,9 @@ const LoginComponent= (props: Props) : JSX.Element => {
     }
 
     return (
-        <Layout className='login-page-container'>
-            <Box className='login-form-container' display='flex'>
-                <Typography className='login-page-ttile'>
+        <Layout className='login-page-container' sx={{display:'flex'}}>
+            <Box className='login-form-container'>
+                <Typography className='login-page-title' fontWeight='bold' fontSize='28px'>
                     Login Page
                 </Typography> 
                 <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
@@ -44,7 +42,7 @@ const LoginComponent= (props: Props) : JSX.Element => {
                     required
                     fullWidth
                     id="username"
-                    label="username Address"
+                    label="username"
                     name="username"
                     autoComplete="username"
                     autoFocus
