@@ -1,6 +1,14 @@
-FROM nginx:alpine
-COPY ./build /usr/share/nginx/html
-RUN rm /etc/nginx/conf.d/default.conf  # <= This line solved my issue
+FROM node:18 as build
+WORKDIR /app
+COPY package*.json ./
+RUN yarn install
+COPY . .
+RUN yarn build
+
+# Stage 2: Serve the React app using Nginx
+FROM nginx:alpine as stage
+RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
