@@ -65,9 +65,8 @@ services:
   nginx:
     image: nginx:1.23.0-alpine
     ports:
-      - 80:80
-      - 443:443
-      - 888:888
+      - 3000:80
+
     restart: unless-stopped
     container_name: ${PROJECT_NAME}-nginx
     volumes:
@@ -93,7 +92,7 @@ services:
 
   ui:
     image: social_media_panel
-    container_name: ${PROJECT_NAME:-social_media_panel-ui}-redis
+    container_name: ${PROJECT_NAME:-social_media_panel-ui}-ui
 
 volumes:
   static_volume:
