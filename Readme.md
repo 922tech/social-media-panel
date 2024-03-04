@@ -5,8 +5,6 @@ This is a simple web application implemented using Django and React
 
 * Currently only the tasks concerning the project infrasructure infrastructe are done (except dockerizing).
 
-## Project:
-    - to run the project you can run `docker compose up -d`.
 
 ## UI:
     - to run the ui , cd to ui and run `yarn start` 
@@ -15,3 +13,6 @@ This is a simple web application implemented using Django and React
 
     - The login page is implemented at path "auth/login/"
     - State management is implemented using Redux along with redux-thunk actions
+
+## Project:
+    - to run the project you can run `docker compose up -d` (after setting up UI with docker).
